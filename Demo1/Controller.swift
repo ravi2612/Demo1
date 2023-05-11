@@ -7,16 +7,6 @@
 
 import Foundation
 
-//{
-//    "tasks" : [
-//        "index" : "0"
-//        "description" : "comprar pao"
-//    ],
-//    [
-//
-//    ]
-//}
-
 final class Controller {
     
     private var name: String?
@@ -26,9 +16,9 @@ final class Controller {
     func mainGreeting() {
         print(Constants.Main.WhatYourName)
         name = readLine()
-        taskList = decodeJSONFile(onDesktopWithFileName: name ?? "") ?? []
         print(Constants.Greeting.Hi + (name ?? "") + Constants.Greeting.Title)
         print(Constants.Main.InitialQuestion)
+        taskList = decodeJSONFile(onDesktopWithFileName: (name ?? "") + ".json") ?? []
         showMenu()
     }
     
@@ -66,10 +56,9 @@ final class Controller {
         createData()
     }
     
-#warning("fazer encode - para [Tasks] em JSON")
     private func createData() {
         do {
-            let jsonData = try JSONSerialization.data(withJSONObject: taskList, options: .prettyPrinted)
+            let jsonData = try JSONEncoder().encode(taskList)
             
             guard let fileURL = FileManager.default.urls(for: .desktopDirectory, in: .userDomainMask).first?.appendingPathComponent("\(name ?? "").json") else { return }
             
@@ -79,7 +68,7 @@ final class Controller {
             print(error.localizedDescription)
         }
     }
-    
+
     private func readJsonFile(fileName: String) -> Bool {
         let desktopPath = NSSearchPathForDirectoriesInDomains(.desktopDirectory, .userDomainMask, true)[0]
         let jsonFilePath = (desktopPath as NSString).appendingPathComponent(fileName)
@@ -87,7 +76,6 @@ final class Controller {
         return fileManager.fileExists(atPath: jsonFilePath)
     }
     
-#warning("Verificar decode")
     private func decodeJSONFile(onDesktopWithFileName fileName: String) -> [Task]? {
         let desktopPath = NSSearchPathForDirectoriesInDomains(.desktopDirectory, .userDomainMask, true)[0]
         let jsonFilePath = (desktopPath as NSString).appendingPathComponent(fileName)
@@ -100,7 +88,7 @@ final class Controller {
         do {
             let jsonData = try Data(contentsOf: URL(fileURLWithPath: jsonFilePath))
             let tasks = try JSONDecoder().decode([Task].self, from: jsonData)
-             #warning("tasksList = tasks")
+             taskList = tasks
             return tasks
         } catch {
             print("Erro ao decodificar o JSON: \(error)")
@@ -111,25 +99,24 @@ final class Controller {
     private func editTask(){
         testIfListIsEmpty()
         print(Constants.Options.Tasks.EditTask)
-        guard let index = readLine(), ((Int(index) ?? 0) <= taskList.count) else { return }
+        guard let index = Int(readLine() ?? "0"), index <= taskList.count else { return }
         print(Constants.Options.Tasks.EditedTask)
         guard let modText = readLine() else { return }
-        taskList.updateValue(modText, forKey: index)
+        taskList[index].description = modText
     }
     
     private func removeTask(){
         testIfListIsEmpty()
         print(Constants.Options.Tasks.RemoveTask)
-        guard let index = readLine(), ((Int(index) ?? 0) <= taskList.count) else { return }
-        taskList.removeValue(forKey: index)
+        guard let index = Int(readLine() ?? "0"), index <= taskList.count else { return }
+        taskList.remove(at: index)
     }
     
     private func showMyTasks(){
         print(Constants.Options.Tasks.ShowTaskMsg)
-        taskList.forEach { (key: String, value: String) in
-            print(key + " - " + value)
+        taskList.forEach { task in
+            print(String(describing: task.index) + " - " + task.description)
         }
-        
     }
     
     private func continueAnswer(){
