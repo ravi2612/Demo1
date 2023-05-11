@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6412B5F52A0C6CFD00890B7F /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6412B5F42A0C6CFD00890B7F /* Task.swift */; };
 		64B0D5922A0AEE9600005793 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B0D5912A0AEE9600005793 /* main.swift */; };
 		64B0D5992A0AF20500005793 /* Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B0D5982A0AF20500005793 /* Controller.swift */; };
 		64B0D59B2A0AFC9900005793 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B0D59A2A0AFC9900005793 /* Enums.swift */; };
@@ -26,6 +27,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6412B5F42A0C6CFD00890B7F /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		64B0D58E2A0AEE9600005793 /* Demo1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Demo1; sourceTree = BUILT_PRODUCTS_DIR; };
 		64B0D5912A0AEE9600005793 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		64B0D5982A0AF20500005793 /* Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Controller.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 				64B0D5982A0AF20500005793 /* Controller.swift */,
 				64B0D59A2A0AFC9900005793 /* Enums.swift */,
 				64B0D59C2A0AFEA900005793 /* Constants.swift */,
+				6412B5F42A0C6CFD00890B7F /* Task.swift */,
 			);
 			path = Demo1;
 			sourceTree = "<group>";
@@ -132,6 +135,7 @@
 				64B0D5992A0AF20500005793 /* Controller.swift in Sources */,
 				64B0D59D2A0AFEA900005793 /* Constants.swift in Sources */,
 				64B0D59B2A0AFC9900005793 /* Enums.swift in Sources */,
+				6412B5F52A0C6CFD00890B7F /* Task.swift in Sources */,
 				64B0D5922A0AEE9600005793 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
