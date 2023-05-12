@@ -84,19 +84,24 @@ extension Controller {
     
     private func editTask(){
         if isListEmpty() { return }
+        showMyTasks()
         print(Constants.Options.Tasks.EditTask)
         guard let index = Int(readLine() ?? "0"), index <= taskList.count else {
             print(Constants.Errors.InvalidOption)
             return
         }
         print(Constants.Options.Tasks.EditedTask)
-        guard let modText = readLine() else { return }
+        guard let modText = readLine() else {
+            print(Constants.Errors.InvalidOption)
+            return
+        }
         taskList[index].description = modText
         createData()
     }
     
     private func removeTask(){
         if isListEmpty() { return }
+        showMyTasks()
         print(Constants.Options.Tasks.RemoveTask)
         guard let title = readLine(), !title.isEmpty else {
             print(Constants.Errors.NotFound)

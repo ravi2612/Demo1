@@ -11,7 +11,7 @@ struct Constants {
     struct Main {
   
         static let mark = " //-----------------------------------------// "
-        static let WhatYourName = "\t\t  Digite o nome do seu usuário "
+        static let WhatYourName = "\t  Digite o nome do seu usuário "
         static let ContinueQuestion = "Você gostaria de voltar ao menu ? (y/n)"
         static let GoodBye = "Até a proxima\n"
         static let InitialQuestion = "O que gostaria de fazer ? "
@@ -21,7 +21,7 @@ struct Constants {
         static let Two = "\t2 - Editar minhas tarefas         ^___^ "
         static let Three = "\t3 - Remover uma tarefa           ( o.o )"
         static let Four = "\t4 - Ver minha lista de tarefas    > ^ <  "
-        static let Five = "\t5 - Marcar tarefa como concluida"
+        static let Five = "\t5 - Marcar/Desmarcar tarefa"
         static let Six = "\t6 - Fechar aplicativo"
         
         struct Tasks {
@@ -32,7 +32,7 @@ struct Constants {
             static let EditedTask = "Digite a atualização"
             static let ShowTaskMsg = "Aqui estão suas Atividades: "
             static let EmptyList = "Sua Lista está vazia =("
-            static let whatComplet = "Qual atividade está completa ?\nMe informa o titulo da atividade!"
+            static let whatComplet = "Qual atividade você quer marcar ?\nMe informa o titulo da atividade!"
         }
     }
     struct Greeting {
@@ -41,7 +41,7 @@ struct Constants {
     }
     struct Errors {
         static let NotFound = "Tarefa não encontrada"
-        static let InvalidOption = "Desculpa, mas não te entendi :("
+        static let InvalidOption = "Não foi possivel realizar a ação :(\nEntrada inválida"
     }
     struct Emojis {
         static let gato = """
