@@ -10,4 +10,5 @@ import Foundation
 struct Task: Codable {
     var index: Int
     var description: String
+    var title: String
 }

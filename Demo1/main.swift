@@ -7,4 +7,3 @@
 
 import Foundation
 Controller().mainGreeting()
-

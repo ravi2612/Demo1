@@ -10,11 +10,13 @@ import Foundation
 final class Controller {
     
     private var name: String?
-    private let optList = [Constants.Options.One, Constants.Options.Two, Constants.Options.Three, Constants.Options.Four]
+    private let menuOptionList = [Constants.Options.One, Constants.Options.Two, Constants.Options.Three, Constants.Options.Four, Constants.Options.Five]
     private var taskList: Array<Task> = []
     
     func mainGreeting() {
+        print(Constants.Main.mark)
         print(Constants.Main.WhatYourName)
+        print(Constants.Main.mark)
         name = readLine()
         print(Constants.Greeting.Hi + (name ?? "") + Constants.Greeting.Title)
         print(Constants.Main.InitialQuestion)
@@ -23,9 +25,24 @@ final class Controller {
     }
     
     private func showMenu() {
-        optList.forEach({ print($0) })
+        print(Constants.Emojis.coelho)
+        print(Constants.Main.mark)
+        menuOptionList.forEach({ print($0) })
+        print(Constants.Main.mark)
         guard let optionNotNil = readLine() else { return }
         handleOptions(option: optionNotNil)
+    }
+    
+    private func continueAnswer(){
+        print(Constants.Main.ContinueQuestion)
+        guard let answerNotNil = readLine() else { return }
+        if answerNotNil.lowercased() == "y" {
+            showMenu()
+        } else if answerNotNil.lowercased() == "n" {
+            print(Constants.Main.GoodBye)
+        } else {
+            print(Constants.Errors.InvalidOption)
+        }
     }
     
     private func handleOptions(option: String){
@@ -43,18 +60,92 @@ final class Controller {
         case .four:
             showMyTasks()
             continueAnswer()
+        case .five:
+            isCompleted()
+            continueAnswer()
         case .none:
-            print(Constants.Main.InvalidOption)
+            print(Constants.Errors.InvalidOption)
             showMenu()
         }
     }
     
+    private func isListEmpty() -> Bool{
+        if taskList.isEmpty {
+            print(Constants.Options.Tasks.EmptyList)
+            continueAnswer()
+            return taskList.isEmpty
+        }
+        return taskList.isEmpty
+    }
+}
+
+// MARK: - TASK ACTIONS
+extension Controller {
+    
     private func newTask(){
+        print(Constants.Emojis.imagem_correndo)
+        print(Constants.Options.Tasks.AddTitleTask)
+        guard let title = readLine(), !title.isEmpty else { return }
         print(Constants.Options.Tasks.AddTask)
-        guard let newTask = readLine() else { return }
-        taskList.append(Task(index: taskList.count, description: newTask))
+        guard let newTask = readLine(), !newTask.isEmpty else { return }
+        taskList.append(Task(index: taskList.count, description: newTask, title: "[ ] " + title))
         createData()
     }
+    
+    private func editTask(){
+        if isListEmpty() { return }
+        print(Constants.Options.Tasks.EditTask)
+        guard let index = Int(readLine() ?? "0"), index <= taskList.count else {
+            print(Constants.Errors.InvalidOption)
+            return
+        }
+        print(Constants.Options.Tasks.EditedTask)
+        guard let modText = readLine() else { return }
+        taskList[index].description = modText
+        createData()
+    }
+    
+    private func removeTask(){
+        if isListEmpty() { return }
+        print(Constants.Options.Tasks.RemoveTask)
+        guard let title = readLine(), !title.isEmpty else {
+            print(Constants.Errors.NotFound)
+            return
+        }
+        taskList.forEach { task in
+            if task.title.lowercased() == title.lowercased() {
+                taskList.remove(at: task.index)
+            }
+        }
+        createData()
+    }
+    
+    private func showMyTasks(){
+        if isListEmpty() { return }
+        print(Constants.Options.Tasks.ShowTaskMsg)
+        taskList.forEach { task in
+            print(" - " + task.title + "\n\t   " + task.description)
+        }
+    }
+    
+    private func isCompleted(){
+        if isListEmpty() { return }
+        print(Constants.Options.Tasks.whatComplet)
+        guard let title = readLine(), !title.isEmpty else {
+            print(Constants.Errors.NotFound)
+            return
+        }
+        taskList.forEach { task in
+            if task.title.lowercased() == title.lowercased() {
+                taskList[task.index].title.contains("[x]") ? (taskList[task.index].title = "[ ] - \(taskList[task.index].title)") : (taskList[task.index].title = " [X] - \(taskList[task.index].title)")
+            }
+        }
+        createData()
+    }
+}
+
+// MARK: - JSON ACTIONS
+extension Controller {
     
     private func createData() {
         do {
@@ -94,49 +185,5 @@ final class Controller {
             print("Erro ao decodificar o JSON: \(error)")
             return nil
         }
-    }
-    
-    private func editTask(){
-        testIfListIsEmpty()
-        print(Constants.Options.Tasks.EditTask)
-        guard let index = Int(readLine() ?? "0"), index <= taskList.count else { return }
-        print(Constants.Options.Tasks.EditedTask)
-        guard let modText = readLine() else { return }
-        taskList[index].description = modText
-    }
-    
-    private func removeTask(){
-        testIfListIsEmpty()
-        print(Constants.Options.Tasks.RemoveTask)
-        guard let index = Int(readLine() ?? "0"), index <= taskList.count else { return }
-        taskList.remove(at: index)
-    }
-    
-    private func showMyTasks(){
-        print(Constants.Options.Tasks.ShowTaskMsg)
-        taskList.forEach { task in
-            print(String(describing: task.index) + " - " + task.description)
-        }
-    }
-    
-    private func continueAnswer(){
-        print(Constants.Main.ContinueQuestion)
-        guard let answerNotNil = readLine() else { return }
-        if answerNotNil.lowercased() == "y" {
-            showMenu()
-        } else if answerNotNil.lowercased() == "n" {
-            print(Constants.Main.GoodBye)
-        } else {
-            print(Constants.Main.InvalidOption)
-        }
-    }
-    
-    private func testIfListIsEmpty(){
-        if taskList.isEmpty {
-            print(Constants.Options.Tasks.EmptyList)
-            continueAnswer()
-            return
-        }
-        showMyTasks()
     }
 }
