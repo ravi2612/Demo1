@@ -10,7 +10,7 @@ import Foundation
 final class Controller {
     
     private var name: String?
-    private let menuOptionList = [Constants.Options.One, Constants.Options.Two, Constants.Options.Three, Constants.Options.Four, Constants.Options.Five]
+    private let menuOptionList = [Constants.Options.One, Constants.Options.Two, Constants.Options.Three, Constants.Options.Four, Constants.Options.Five, Constants.Options.Six]
     private var taskList: Array<Task> = []
     
     func mainGreeting() {
@@ -33,36 +33,26 @@ final class Controller {
         handleOptions(option: optionNotNil)
     }
     
-    private func continueAnswer(){
-        print(Constants.Main.ContinueQuestion)
-        guard let answerNotNil = readLine() else { return }
-        if answerNotNil.lowercased() == "y" {
-            showMenu()
-        } else if answerNotNil.lowercased() == "n" {
-            print(Constants.Main.GoodBye)
-        } else {
-            print(Constants.Errors.InvalidOption)
-        }
-    }
-    
     private func handleOptions(option: String){
         let opt: Options = Options(rawValue: option) ?? .none
         switch opt {
         case .one:
             newTask()
-            continueAnswer()
+            showMenu()
         case .two:
             editTask()
-            continueAnswer()
+            showMenu()
         case .three:
             removeTask()
-            continueAnswer()
+            showMenu()
         case .four:
             showMyTasks()
-            continueAnswer()
+            showMenu()
         case .five:
             isCompleted()
-            continueAnswer()
+            showMenu()
+        case .six:
+            print(Constants.Main.GoodBye + Constants.Emojis.imagem_correndo)
         case .none:
             print(Constants.Errors.InvalidOption)
             showMenu()
@@ -72,7 +62,7 @@ final class Controller {
     private func isListEmpty() -> Bool{
         if taskList.isEmpty {
             print(Constants.Options.Tasks.EmptyList)
-            continueAnswer()
+            showMenu()
             return taskList.isEmpty
         }
         return taskList.isEmpty
@@ -113,7 +103,7 @@ extension Controller {
             return
         }
         taskList.forEach { task in
-            if task.title.lowercased() == title.lowercased() {
+            if task.title.lowercased().contains(title.lowercased()) {
                 taskList.remove(at: task.index)
             }
         }
@@ -126,19 +116,27 @@ extension Controller {
         taskList.forEach { task in
             print(" - " + task.title + "\n\t   " + task.description)
         }
+        print("\n")
     }
     
     private func isCompleted(){
         if isListEmpty() { return }
+        showMyTasks()
         print(Constants.Options.Tasks.whatComplet)
         guard let title = readLine(), !title.isEmpty else {
             print(Constants.Errors.NotFound)
             return
         }
         taskList.forEach { task in
-            if task.title.lowercased() == title.lowercased() {
-                taskList[task.index].title.contains("[x]") ? (taskList[task.index].title = "[ ] - \(taskList[task.index].title)") : (taskList[task.index].title = " [X] - \(taskList[task.index].title)")
+            var titleTask = taskList[task.index].title
+            if titleTask.lowercased().contains(title.lowercased()) {
+                if titleTask.contains("[x]") {
+                    titleTask = "[ ]\(String(titleTask.dropFirst(3)))"
+                } else {
+                    titleTask = "[x]\(String(titleTask.dropFirst(3)))"
+                }
             }
+            taskList[task.index].title = titleTask
         }
         createData()
     }

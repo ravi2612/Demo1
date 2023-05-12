@@ -14,6 +14,7 @@ enum Options: String {
     case three = "3"
     case four = "4"
     case five = "5"
+    case six = "6"
     case none = "0"
     
     var number: Int {
@@ -28,6 +29,8 @@ enum Options: String {
             return 4
         case .five:
             return 5
+        case .six:
+            return 6
         case .none:
             return 0
         }
