@@ -28,7 +28,7 @@ struct Constants {
             static let AddTitleTask = "Qual o titulo da sua tarefa ?"
             static let AddTask = "Qual a descriçao da sua tarefa ?"
             static let RemoveTask = "Digite o titulo da atividade que gostaria de remover"
-            static let EditTask = "Qual atividade gostaria de atualizar ?"
+            static let EditTask = "Digite o titulo da atividade que gostaria de atualizar a descrição ?"
             static let EditedTask = "Digite a atualização"
             static let ShowTaskMsg = "Aqui estão suas Atividades: "
             static let EmptyList = "Sua Lista está vazia =("

@@ -86,7 +86,7 @@ extension Controller {
         if isListEmpty() { return }
         showMyTasks()
         print(Constants.Options.Tasks.EditTask)
-        guard let index = Int(readLine() ?? "0"), index <= taskList.count else {
+        guard let title = readLine() else {
             print(Constants.Errors.InvalidOption)
             return
         }
@@ -95,7 +95,13 @@ extension Controller {
             print(Constants.Errors.InvalidOption)
             return
         }
-        taskList[index].description = modText
+        taskList.forEach { task in
+            if task.title.lowercased().contains(title.lowercased()) {
+                taskList[task.index].title = title
+                taskList[task.index].description = modText
+            }
+        }
+      
         createData()
     }
     
@@ -128,10 +134,12 @@ extension Controller {
         if isListEmpty() { return }
         showMyTasks()
         print(Constants.Options.Tasks.whatComplet)
+        
         guard let title = readLine(), !title.isEmpty else {
             print(Constants.Errors.NotFound)
             return
         }
+
         taskList.forEach { task in
             var titleTask = taskList[task.index].title
             if titleTask.lowercased().contains(title.lowercased()) {
@@ -142,8 +150,8 @@ extension Controller {
                 }
             }
             taskList[task.index].title = titleTask
+            createData()
         }
-        createData()
     }
 }
 
