@@ -42,6 +42,7 @@ struct Constants {
     struct Errors {
         static let NotFound = "Tarefa não encontrada"
         static let InvalidOption = "Não foi possivel realizar a ação :(\nEntrada inválida"
+        static let existentTitle = "Não é possivel adicionar uma tarefa já existente."
     }
     struct Emojis {
         static let gato = """
