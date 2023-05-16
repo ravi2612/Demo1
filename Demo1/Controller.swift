@@ -83,27 +83,26 @@ extension Controller {
     }
     
     private func editTask(){
-        if isListEmpty() { return }
-        showMyTasks()
-        print(Constants.Options.Tasks.EditTask)
-        guard let title = readLine() else {
-            print(Constants.Errors.InvalidOption)
-            return
-        }
-        print(Constants.Options.Tasks.EditedTask)
-        guard let modText = readLine() else {
-            print(Constants.Errors.InvalidOption)
-            return
-        }
-        taskList.forEach { task in
-            if task.title.lowercased().contains(title.lowercased()) {
-                taskList[task.index].title = title
-                taskList[task.index].description = modText
-            }
-        }
-      
-        createData()
-    }
+           if isListEmpty() { return }
+           showMyTasks()
+           print(Constants.Options.Tasks.EditTask)
+           guard let title = readLine() else {
+               print(Constants.Errors.InvalidOption)
+               return
+           }
+           print(Constants.Options.Tasks.EditedTask)
+           guard let modText = readLine() else {
+               print(Constants.Errors.InvalidOption)
+               return
+           }
+           taskList.forEach { task in
+               if task.title.lowercased().contains(title.lowercased()) {
+                   taskList[task.index].description = modText
+               }
+           }
+         
+           createData()
+       }
     
     private func removeTask(){
         if isListEmpty() { return }
