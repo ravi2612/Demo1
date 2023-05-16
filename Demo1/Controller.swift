@@ -20,6 +20,9 @@ final class Controller {
         name = readLine()
         print(Constants.Greeting.Hi + (name ?? "") + Constants.Greeting.Title)
         print(Constants.Main.InitialQuestion)
+        if name?.isEmpty ?? true {
+            name = "User"
+        }
         taskList = decodeJSONFile(onDesktopWithFileName: (name ?? "") + ".json") ?? []
         showMenu()
     }
@@ -76,6 +79,12 @@ extension Controller {
         print(Constants.Emojis.imagem_correndo)
         print(Constants.Options.Tasks.AddTitleTask)
         guard let title = readLine(), !title.isEmpty else { return }
+        taskList.forEach({ task in
+            if task.title == title{
+                print(Constants.Errors.existentTitle)
+                return
+            }
+        })
         print(Constants.Options.Tasks.AddTask)
         guard let newTask = readLine(), !newTask.isEmpty else { return }
         taskList.append(Task(index: taskList.count, description: newTask, title: "[ ] " + title))
